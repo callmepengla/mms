@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fms.mms.dao.StudentFilesDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.fms.mms.entity.StudentFilesEntity" id="studentFilesMap">
+        <result property="id" column="id"/>
+        <result property="scoreSchoolid" column="score_schoolid"/>
+        <result property="studentName" column="student_name"/>
+        <result property="studentGender" column="student_gender"/>
+        <result property="studentBirthday" column="student_birthday"/>
+        <result property="phoneNumber" column="phone_number"/>
+        <result property="fatherName" column="father_name"/>
+        <result property="familyStatus" column="family_status"/>
+        <result property="graduationWhere" column="graduation_where"/>
+        <result property="address" column="address"/>
+        <result property="photo" column="photo"/>
+    </resultMap>
+    <select id="getPage" resultType="com.fms.mms.entity.StudentFilesEntity">
+        SELECT * FROM student_files
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="scoreSchoolId != null and scoreSchoolId != ''">
+                AND score_schoolid LIKE CONCAT('%',#{scoreSchoolId},'%')
+            </if>
+            <if test="studentName != null and studentName != ''">
+                AND student_name LIKE CONCAT('%',#{studentName},'%')
+            </if>
+        </trim>
+        ORDER BY id DESC
+        LIMIT #{index},#{size}
+    </select>
+    <select id="getCount" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM student_files
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="scoreSchoolId != null and scoreSchoolId != ''">
+                AND score_schoolid LIKE CONCAT('%',#{scoreSchoolId},'%')
+            </if>
+            <if test="studentName != null and studentName != ''">
+                AND student_name LIKE CONCAT('%',#{studentName},'%')
+            </if>
+        </trim>
+    </select>
+
+
+</mapper>

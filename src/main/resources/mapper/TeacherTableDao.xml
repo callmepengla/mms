@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fms.mms.dao.TeacherTableDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.fms.mms.entity.TeacherTableEntity" id="teacherTableMap">
+        <result property="id" column="id"/>
+        <result property="teacherName" column="teacher_name"/>
+        <result property="teacherPosition" column="teacher_position"/>
+        <result property="subject" column="subject"/>
+    </resultMap>
+
+
+</mapper>

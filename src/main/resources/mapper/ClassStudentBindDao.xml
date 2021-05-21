@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fms.mms.dao.ClassStudentBindDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.fms.mms.entity.ClassStudentBindEntity" id="classStudentBindMap">
+        <result property="id" column="id"/>
+        <result property="classTableId" column="class_table_id"/>
+        <result property="teacherTableId" column="teacher_table_id"/>
+    </resultMap>
+    <select id="getBingInfoPage" resultType="com.fms.mms.vo.ClassBindInfoVO">
+        SELECT
+        csb.id,
+        ct.grade,
+        ct.class_number,
+        tt.teacher_name,
+        tt.teacher_position,
+        tt.`subject`
+        FROM class_student_bind csb
+        LEFT JOIN teacher_table tt ON tt.id = csb.teacher_table_id
+        LEFT JOIN class_table ct ON ct.id = csb.class_table_id
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="subject != null and subject != ''">
+                AND tt.subject = #{subject}
+            </if>
+            <if test="teacherName != null and teacherName != ''">
+                AND tt.teacher_name LIKE CONCAT('%',#{teacherName},'%')
+            </if>
+            <if test="grade != null and grade != ''">
+                AND ct.grade = #{grade}
+            </if>
+            <if test="classNumber != null and classNumber != ''">
+                AND ct.class_number = #{classNumber}
+            </if>
+        </trim>
+        ORDER BY csb.id DESC
+        LIMIT #{index},#{size}
+    </select>
+    <select id="getBindInfoCount" resultType="java.lang.Integer">
+        SELECT
+        COUNT(*)
+        FROM class_student_bind csb
+        LEFT JOIN teacher_table tt ON tt.id = csb.teacher_table_id
+        LEFT JOIN class_table ct ON ct.id = csb.class_table_id
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="teacherName != null and teacherName != ''">
+                AND tt.teacher_name LIKE CONCAT('%',#{teacherName},'%')
+            </if>
+            <if test="grade != null and grade != ''">
+                AND ct.grade = #{grade}
+            </if>
+            <if test="classNumber != null and classNumber != ''">
+                AND ct.class_number = #{classNumber}
+            </if>
+        </trim>
+    </select>
+
+
+</mapper>

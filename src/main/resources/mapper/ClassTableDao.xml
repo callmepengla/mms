@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fms.mms.dao.ClassTableDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.fms.mms.entity.ClassTableEntity" id="classTableMap">
+        <result property="id" column="id"/>
+        <result property="grade" column="grade"/>
+        <result property="classNumber" column="class_number"/>
+    </resultMap>
+
+
+</mapper>

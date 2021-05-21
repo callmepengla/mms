@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fms.mms.dao.StudentScoreDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.fms.mms.entity.StudentScoreEntity" id="studentScoreMap">
+        <result property="id" column="id"/>
+        <result property="scoreSchoolid" column="score_schoolid"/>
+        <result property="studentName" column="student_name"/>
+        <result property="scoreName" column="score_name"/>
+        <result property="scoreSubject" column="score_subject"/>
+        <result property="gradeName" column="grade_name"/>
+        <result property="classNumber" column="class_number"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updateDate" column="update_date"/>
+    </resultMap>
+    <select id="getScoreList" resultType="com.fms.mms.entity.StudentScoreEntity">
+        SELECT * FROM student_score
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="scoreSchoolId != null and scoreSchoolId != ''">
+                AND score_schoolid LIKE CONCAT('%',#{scoreSchoolId},'%')
+            </if>
+            <if test="studentName != null and studentName != ''">
+                AND student_name LIKE CONCAT('%',#{studentName},'%')
+            </if>
+            <if test="gradeName != null and gradeName != ''">
+                AND grade_name LIKE CONCAT('%',#{gradeName},'%')
+            </if>
+            <if test="classNumber != null and classNumber != ''">
+                AND class_number LIKE CONCAT('%',#{classNumber},'%')
+            </if>
+        </trim>
+        ORDER BY update_date DESC
+        LIMIT #{index},#{size}
+    </select>
+    <select id="getCount" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM student_score
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="scoreSchoolId != null and scoreSchoolId != ''">
+                AND score_schoolid LIKE CONCAT('%',#{scoreSchoolId},'%')
+            </if>
+            <if test="studentName != null and studentName != ''">
+                AND student_name LIKE CONCAT('%',#{studentName},'%')
+            </if>
+            <if test="gradeName != null and gradeName != ''">
+                AND grade_name LIKE CONCAT('%',#{gradeName},'%')
+            </if>
+        </trim>
+    </select>
+
+
+</mapper>
