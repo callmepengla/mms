@@ -49,6 +49,11 @@ public class ClassStudentBindController {
      */
     @PostMapping("bindstutea")
     public R bindStuTea(@RequestBody ClassBindTeacherDTO classBindTeacherDTO){
-        return null;
+        Integer integer = classStudentBindService.bindStuTea(classBindTeacherDTO);
+        if (integer > 0){
+            return R.ok();
+        }else {
+            return R.error();
+        }
     }
 }

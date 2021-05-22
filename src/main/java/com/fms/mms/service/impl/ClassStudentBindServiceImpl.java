@@ -1,11 +1,14 @@
 package com.fms.mms.service.impl;
 
 
+import com.fms.mms.dto.ClassBindTeacherDTO;
 import com.fms.mms.enums.GradeNameEnum;
 import com.fms.mms.enums.ScoreNameEnum;
 import com.fms.mms.enums.TeacherPositionEnum;
+import com.fms.mms.service.ClassTableService;
 import com.fms.mms.utils.PageUtils;
 import com.fms.mms.vo.ClassBindInfoVO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fms.mms.dao.ClassStudentBindDao;
@@ -20,6 +23,8 @@ import java.util.Map;
 @Service("classStudentBindService")
 public class ClassStudentBindServiceImpl extends ServiceImpl<ClassStudentBindDao, ClassStudentBindEntity> implements ClassStudentBindService {
 
+    @Autowired
+    private ClassTableService classTableService;
     @Override
     public PageUtils getClassStuBindPage(Map<String, Object> params) {
         //获取数据
@@ -61,5 +66,23 @@ public class ClassStudentBindServiceImpl extends ServiceImpl<ClassStudentBindDao
         Integer bindInfoCount = this.baseMapper.getBindInfoCount(map);
         PageUtils pageUtils = new PageUtils(classBindInfoVOList,bindInfoCount,size,index);
         return pageUtils;
+    }
+
+    @Override
+    public Integer bindStuTea(ClassBindTeacherDTO classBindTeacherDTO) {
+        //获取教师表id
+        Long teacherName = classBindTeacherDTO.getTeacherName();
+        //获取年级id
+        Long gradeName = classBindTeacherDTO.getGradeName();
+        //获取班级
+        Integer classNumber = classBindTeacherDTO.getClassNumber();
+        //根据年级id、班级查询班级表id
+        Long id = classTableService.getIdByGradeAndClNum(gradeName, classNumber);
+
+        ClassStudentBindEntity classStudentBindEntity = new ClassStudentBindEntity();
+        classStudentBindEntity.setClassTableId(id);
+        classStudentBindEntity.setTeacherTableId(teacherName);
+        int insert = this.baseMapper.insert(classStudentBindEntity);
+        return insert;
     }
 }

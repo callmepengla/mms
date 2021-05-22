@@ -2,6 +2,7 @@ package com.fms.mms.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import com.fms.mms.dto.ClassBindTeacherDTO;
 import com.fms.mms.entity.ClassStudentBindEntity;
 import com.fms.mms.utils.PageUtils;
 
@@ -21,5 +22,12 @@ public interface ClassStudentBindService extends IService<ClassStudentBindEntity
      * @return
      */
     PageUtils getClassStuBindPage(Map<String, Object> params);
+
+    /**
+     * 绑定班级教师
+     * @param classBindTeacherDTO
+     * @return
+     */
+    Integer bindStuTea(ClassBindTeacherDTO classBindTeacherDTO);
 }
 
