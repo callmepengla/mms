@@ -29,5 +29,13 @@ public interface ClassStudentBindService extends IService<ClassStudentBindEntity
      * @return
      */
     Integer bindStuTea(ClassBindTeacherDTO classBindTeacherDTO);
+
+    /**
+     * 编辑班级绑定教师
+     * @param editId
+     * @param classBindTeacherDTO
+     * @return
+     */
+    void editTeacher(Long editId, ClassBindTeacherDTO classBindTeacherDTO);
 }
 

@@ -31,4 +31,8 @@ public class ClassStudentBindEntity implements Serializable {
 	 * 教师表id
 	 */
 	private Long teacherTableId;
+	/**
+	 * 教师职位
+	 */
+	private Long teacherPosition;
 }

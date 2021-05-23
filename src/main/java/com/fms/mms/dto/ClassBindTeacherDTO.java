@@ -26,4 +26,8 @@ public class ClassBindTeacherDTO implements Serializable {
      * 教师表id
      */
     private Long teacherName;
+    /**
+     * 教师职位
+     */
+    private Long positionName;
 }

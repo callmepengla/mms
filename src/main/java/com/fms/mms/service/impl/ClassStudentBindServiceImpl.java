@@ -1,11 +1,14 @@
 package com.fms.mms.service.impl;
 
 
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.fms.mms.dto.ClassBindTeacherDTO;
+import com.fms.mms.entity.TeacherTableEntity;
 import com.fms.mms.enums.GradeNameEnum;
 import com.fms.mms.enums.ScoreNameEnum;
 import com.fms.mms.enums.TeacherPositionEnum;
 import com.fms.mms.service.ClassTableService;
+import com.fms.mms.service.TeacherTableService;
 import com.fms.mms.utils.PageUtils;
 import com.fms.mms.vo.ClassBindInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +28,8 @@ public class ClassStudentBindServiceImpl extends ServiceImpl<ClassStudentBindDao
 
     @Autowired
     private ClassTableService classTableService;
+    @Autowired
+    private TeacherTableService teacherTableService;
     @Override
     public PageUtils getClassStuBindPage(Map<String, Object> params) {
         //获取数据
@@ -84,5 +89,25 @@ public class ClassStudentBindServiceImpl extends ServiceImpl<ClassStudentBindDao
         classStudentBindEntity.setTeacherTableId(teacherName);
         int insert = this.baseMapper.insert(classStudentBindEntity);
         return insert;
+    }
+
+    @Override
+    public void editTeacher(Long editId, ClassBindTeacherDTO classBindTeacherDTO) {
+        //获取年级id
+        Long gradeName = classBindTeacherDTO.getGradeName();
+        //获取班级
+        Integer classNumber = classBindTeacherDTO.getClassNumber();
+        //根据年级id、班级查询班级表id
+        Long id = classTableService.getIdByGradeAndClNum(gradeName, classNumber);
+        //更新教师的职位
+        Long positionName = classBindTeacherDTO.getPositionName();
+        if (id != null){
+            ClassStudentBindEntity classStudentBindEntity = new ClassStudentBindEntity();
+            classStudentBindEntity.setClassTableId(id);
+            classStudentBindEntity.setTeacherPosition(positionName);
+            UpdateWrapper<ClassStudentBindEntity> updateWrapper = new UpdateWrapper<>();
+            updateWrapper.eq("id",editId);
+            this.baseMapper.update(classStudentBindEntity,updateWrapper);
+        }
     }
 }

@@ -15,7 +15,7 @@
         ct.grade,
         ct.class_number,
         tt.teacher_name,
-        tt.teacher_position,
+        csb.teacher_position,
         tt.`subject`
         FROM class_student_bind csb
         LEFT JOIN teacher_table tt ON tt.id = csb.teacher_table_id

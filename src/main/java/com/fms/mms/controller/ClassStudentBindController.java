@@ -1,6 +1,8 @@
 package com.fms.mms.controller;
 
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.fms.mms.dto.ClassBindTeacherDTO;
+import com.fms.mms.entity.ClassStudentBindEntity;
 import com.fms.mms.service.ClassStudentBindService;
 import com.fms.mms.utils.PageUtils;
 import com.fms.mms.utils.R;
@@ -55,5 +57,11 @@ public class ClassStudentBindController {
         }else {
             return R.error();
         }
+    }
+
+    @PostMapping("edit/{editId}")
+    public R updateTeacher(@PathVariable Long editId,@RequestBody ClassBindTeacherDTO classBindTeacherDTO){
+        classStudentBindService.editTeacher(editId,classBindTeacherDTO);
+        return R.ok();
     }
 }
