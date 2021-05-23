@@ -4,19 +4,18 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
-import java.util.Date;
 import lombok.Data;
 
 /**
- * 教师信息表
+ *
  *
  * @author admin
  * @email sunlightcs@gmail.com
- * @date 2021-05-15 14:37:21
+ * @date 2021-05-23 18:58:41
  */
 @Data
-@TableName("teacher_table")
-public class TeacherTableEntity implements Serializable {
+@TableName("class_student")
+public class ClassStudentEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -25,12 +24,12 @@ public class TeacherTableEntity implements Serializable {
 	@TableId
 	private Long id;
 	/**
-	 * 教师姓名
+	 * 班级表id
 	 */
-	private String teacherName;
+	private Long classTableId;
 	/**
-	 * 任教科目
+	 * 学生档案表id
 	 */
-	private Long subject;
+	private Long studentFilesId;
 
 }

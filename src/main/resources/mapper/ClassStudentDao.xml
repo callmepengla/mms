@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fms.mms.dao.ClassStudentDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.fms.mms.entity.ClassStudentEntity" id="classStudentMap">
+        <result property="id" column="id"/>
+        <result property="classTableId" column="class_table_id"/>
+        <result property="studentFilesId" column="student_files_id"/>
+    </resultMap>
+    <select id="getClassStuPage" resultType="com.fms.mms.vo.ClassStudentVO">
+        SELECT
+        cs.id,
+        ct.grade,
+        ct.class_number,
+        sf.score_schoolid,
+        sf.student_name
+        FROM class_student cs
+        LEFT JOIN class_table ct ON ct.id = cs.class_table_id
+        LEFT JOIN student_files sf ON sf.id = cs.student_files_id
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="gradeName != null and gradeName != ''">
+                AND ct.grade = #{gradeName}
+            </if>
+            <if test="scoreSchoolId != null and scoreSchoolId != ''">
+                AND sf.score_schoolid = #{scoreSchoolId}
+            </if>
+            <if test="classNumber != null and classNumber != ''">
+                AND ct.class_number = #{classNumber}
+            </if>
+        </trim>
+        ORDER BY cs.id DESC
+        LIMIT #{index},#{size}
+    </select>
+    <select id="getClassStuCount" resultType="java.lang.Integer">
+        SELECT
+        COUNT(*)
+        FROM class_student cs
+        LEFT JOIN class_table ct ON ct.id = cs.class_table_id
+        LEFT JOIN student_files sf ON sf.id = cs.student_files_id
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="gradeName != null and gradeName != ''">
+                AND ct.grade = #{gradeName}
+            </if>
+            <if test="scoreSchoolId != null and scoreSchoolId != ''">
+                AND sf.score_schoolid = #{scoreSchoolId}
+            </if>
+            <if test="classNumber != null and classNumber != ''">
+                AND ct.class_number = #{classNumber}
+            </if>
+        </trim>
+    </select>
+
+
+</mapper>

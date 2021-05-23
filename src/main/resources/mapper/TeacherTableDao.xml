@@ -7,7 +7,6 @@
     <resultMap type="com.fms.mms.entity.TeacherTableEntity" id="teacherTableMap">
         <result property="id" column="id"/>
         <result property="teacherName" column="teacher_name"/>
-        <result property="teacherPosition" column="teacher_position"/>
         <result property="subject" column="subject"/>
     </resultMap>
 

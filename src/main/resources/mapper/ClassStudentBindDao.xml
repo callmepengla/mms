@@ -8,6 +8,7 @@
         <result property="id" column="id"/>
         <result property="classTableId" column="class_table_id"/>
         <result property="teacherTableId" column="teacher_table_id"/>
+        <result property="teacherPosition" column="teacher_position"/>
     </resultMap>
     <select id="getBingInfoPage" resultType="com.fms.mms.vo.ClassBindInfoVO">
         SELECT

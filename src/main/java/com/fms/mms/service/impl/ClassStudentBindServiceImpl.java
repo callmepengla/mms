@@ -86,10 +86,13 @@ public class ClassStudentBindServiceImpl extends ServiceImpl<ClassStudentBindDao
         Integer classNumber = classBindTeacherDTO.getClassNumber();
         //根据年级id、班级查询班级表id
         Long id = classTableService.getIdByGradeAndClNum(gradeName, classNumber);
+        //获取教师职位
+        Long positionName = classBindTeacherDTO.getPositionName();
 
         ClassStudentBindEntity classStudentBindEntity = new ClassStudentBindEntity();
         classStudentBindEntity.setClassTableId(id);
         classStudentBindEntity.setTeacherTableId(teacherName);
+        classStudentBindEntity.setTeacherPosition(positionName);
         int insert = this.baseMapper.insert(classStudentBindEntity);
         return insert;
     }
