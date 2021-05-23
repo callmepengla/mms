@@ -3,6 +3,7 @@ package com.fms.mms.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.fms.mms.dto.ClassBindTeacherDTO;
+import com.fms.mms.entity.ClassTableEntity;
 import com.fms.mms.entity.TeacherTableEntity;
 import com.fms.mms.enums.GradeNameEnum;
 import com.fms.mms.enums.ScoreNameEnum;
@@ -10,7 +11,9 @@ import com.fms.mms.enums.TeacherPositionEnum;
 import com.fms.mms.service.ClassTableService;
 import com.fms.mms.service.TeacherTableService;
 import com.fms.mms.utils.PageUtils;
+import com.fms.mms.utils.R;
 import com.fms.mms.vo.ClassBindInfoVO;
+import com.fms.mms.vo.ClassTeacherVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -109,5 +112,30 @@ public class ClassStudentBindServiceImpl extends ServiceImpl<ClassStudentBindDao
             updateWrapper.eq("id",editId);
             this.baseMapper.update(classStudentBindEntity,updateWrapper);
         }
+    }
+
+    @Override
+    public R getInfoById(Long editId) {
+        ClassStudentBindEntity classStudentBindEntity = this.baseMapper.selectById(editId);
+        //获取班级表id
+        Long classTableId = classStudentBindEntity.getClassTableId();
+        //获取教师表id
+        Long teacherTableId = classStudentBindEntity.getTeacherTableId();
+        //获取教师职位
+        Long teacherPosition = classStudentBindEntity.getTeacherPosition();
+        //根据班级表id获取年级&班级
+        ClassTableEntity classTableEntity = classTableService.getById(classTableId);
+        Long grade = classTableEntity.getGrade();
+        Integer classNumber = classTableEntity.getClassNumber();
+        //根据教师表id获取教师姓名
+        TeacherTableEntity tableEntity = teacherTableService.getById(teacherTableId);
+        String teacherName = tableEntity.getTeacherName();
+
+        ClassTeacherVO classTeacherVO = new ClassTeacherVO();
+        classTeacherVO.setGradeName(grade);
+        classTeacherVO.setClassNumber(classNumber);
+        classTeacherVO.setPositionName(teacherPosition);
+        classTeacherVO.setTeacherName(teacherName);
+        return R.ok().data("form",classTeacherVO);
     }
 }

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.fms.mms.dto.ClassBindTeacherDTO;
 import com.fms.mms.entity.ClassStudentBindEntity;
 import com.fms.mms.utils.PageUtils;
+import com.fms.mms.utils.R;
 
 import java.util.Map;
 
@@ -37,5 +38,11 @@ public interface ClassStudentBindService extends IService<ClassStudentBindEntity
      * @return
      */
     void editTeacher(Long editId, ClassBindTeacherDTO classBindTeacherDTO);
+
+    /**
+     * 通过id获取班级教师信息
+     * @param editId
+     */
+    R getInfoById(Long editId);
 }
 

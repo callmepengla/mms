@@ -59,9 +59,26 @@ public class ClassStudentBindController {
         }
     }
 
+    /**
+     * 班级教室修改接口
+     * @param editId
+     * @param classBindTeacherDTO
+     * @return
+     */
     @PostMapping("edit/{editId}")
     public R updateTeacher(@PathVariable Long editId,@RequestBody ClassBindTeacherDTO classBindTeacherDTO){
         classStudentBindService.editTeacher(editId,classBindTeacherDTO);
         return R.ok();
+    }
+
+    /**
+     * 通过id获取班级教师信息
+     * @param editId
+     * @return
+     */
+    @GetMapping("getInfoById/{editId}")
+    public R getInfoById(@PathVariable Long editId){
+        R r = classStudentBindService.getInfoById(editId);
+        return r;
     }
 }
