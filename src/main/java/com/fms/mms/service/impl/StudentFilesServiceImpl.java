@@ -9,6 +9,8 @@ import com.fms.mms.utils.PageUtils;
 import com.fms.mms.utils.R;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,14 +52,15 @@ public class StudentFilesServiceImpl extends ServiceImpl<StudentFilesDao, Studen
 
     @Override
     public R addStudentFiles(StudentFilesDTO studentFilesDTO) {
-        //判断是否出现相同学号
-        String scoreSchoolid = studentFilesDTO.getScoreSchoolid();
-        QueryWrapper<StudentFilesEntity> wrapper = new QueryWrapper<>();
-        wrapper.eq("score_schoolid",scoreSchoolid);
-        Integer integer = this.baseMapper.selectCount(wrapper);
-        if (integer > 0){
-            return R.error().data("message","该学号已存在！添加失败！");
-        }
+        Date date = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("YYYYMMdd");
+        String format1 = format.format(date);
+        int i = (int) (Math.random() * 10000);
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append(format1);
+        stringBuffer.append("567");
+        stringBuffer.append(i);
+        studentFilesDTO.setScoreSchoolid(stringBuffer.toString());
         StudentFilesEntity studentFilesEntity = ConvertUtils.sourceToTarget(studentFilesDTO, StudentFilesEntity.class);
         int insert = this.baseMapper.insert(studentFilesEntity);
         if (insert > 0){
