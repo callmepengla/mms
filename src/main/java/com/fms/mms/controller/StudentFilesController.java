@@ -81,4 +81,15 @@ public class StudentFilesController {
             return R.error();
         }
     }
+
+    /**
+     * 查询功能is_add = 0
+     * @param params
+     * @return
+     */
+    @GetMapping("stuPage")
+    public R getFilesPage(@RequestParam Map<String, Object> params){
+        PageUtils studentFilesPage = studentFilesService.getFilesPage(params);
+        return R.ok().data("filespage",studentFilesPage);
+    }
 }

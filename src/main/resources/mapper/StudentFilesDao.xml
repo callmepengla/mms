@@ -16,6 +16,7 @@
         <result property="graduationWhere" column="graduation_where"/>
         <result property="address" column="address"/>
         <result property="photo" column="photo"/>
+        <result property="isAdd" column="is_add"/>
     </resultMap>
     <select id="getPage" resultType="com.fms.mms.entity.StudentFilesEntity">
         SELECT * FROM student_files
@@ -40,6 +41,16 @@
                 AND student_name LIKE CONCAT('%',#{studentName},'%')
             </if>
         </trim>
+    </select>
+    <select id="getFilePage" resultType="com.fms.mms.entity.StudentFilesEntity">
+        SELECT * FROM student_files
+        WHERE is_add = 0
+        ORDER BY id DESC
+        LIMIT #{index},#{size}
+    </select>
+    <select id="getTotal" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM student_files
+        WHERE is_add = 0
     </select>
 
 

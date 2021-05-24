@@ -4,9 +4,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
 
 import com.fms.mms.dto.ClassBindTeacherDTO;
 import com.fms.mms.entity.ClassStudentEntity;
+import com.fms.mms.entity.StudentFilesEntity;
 import com.fms.mms.utils.PageUtils;
 import com.fms.mms.utils.R;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -38,5 +40,20 @@ public interface ClassStudentService extends IService<ClassStudentEntity> {
      * @param classBindTeacherDTO
      */
     void editTeacher(Long editId, ClassBindTeacherDTO classBindTeacherDTO);
+
+    /**
+     * 学生班级分配
+     * @param gradeName
+     * @param classNumber
+     * @param multipleSelection
+     */
+    void addStuList(Long gradeName, Integer classNumber, List<StudentFilesEntity> multipleSelection);
+
+    /**
+     * 根据id删除接口
+     * @param id
+     * @return
+     */
+    void removeStuById(Long id);
 }
 

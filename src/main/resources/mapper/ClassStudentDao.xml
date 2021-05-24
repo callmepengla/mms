@@ -20,6 +20,7 @@
         LEFT JOIN class_table ct ON ct.id = cs.class_table_id
         LEFT JOIN student_files sf ON sf.id = cs.student_files_id
         <trim prefix="WHERE" prefixOverrides="AND | OR">
+            AND sf.is_add = 1
             <if test="gradeName != null and gradeName != ''">
                 AND ct.grade = #{gradeName}
             </if>

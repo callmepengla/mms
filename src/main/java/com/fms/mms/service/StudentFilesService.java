@@ -38,5 +38,12 @@ public interface StudentFilesService extends IService<StudentFilesEntity> {
      * @return
      */
     Boolean selectStudent(String scoreSchoolid);
+
+    /**
+     * 查询功能is_add = 0
+     * @param params
+     * @return
+     */
+    PageUtils getFilesPage(Map<String, Object> params);
 }
 

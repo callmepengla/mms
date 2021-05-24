@@ -1,12 +1,15 @@
 package com.fms.mms.controller;
 
 import com.fms.mms.dto.ClassBindTeacherDTO;
+import com.fms.mms.dto.DateFormDTO;
+import com.fms.mms.entity.StudentFilesEntity;
 import com.fms.mms.service.ClassStudentService;
 import com.fms.mms.utils.PageUtils;
 import com.fms.mms.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -35,12 +38,8 @@ public class ClassStudentController {
      */
     @DeleteMapping("delete/{id}")
     public R removeStudent(@PathVariable Long id){
-        boolean flag = classStudentService.removeById(id);
-        if (flag){
-            return R.ok();
-        }else {
-            return R.error();
-        }
+        classStudentService.removeStuById(id);
+        return R.ok();
     }
 
     /**
@@ -63,6 +62,20 @@ public class ClassStudentController {
     @PostMapping("edit/{editId}")
     public R updateTeacher(@PathVariable Long editId,@RequestBody ClassBindTeacherDTO classBindTeacherDTO){
         classStudentService.editTeacher(editId,classBindTeacherDTO);
+        return R.ok();
+    }
+
+    /**
+     * 学生班级分配
+     * @param dateForm
+     * @return
+     */
+    @PostMapping("addstulist")
+    public R addStuList(@RequestBody DateFormDTO dateForm){
+        Long gradeName = dateForm.getForm().getGradeName();
+        Integer classNumber = dateForm.getForm().getClassNumber();
+        List<StudentFilesEntity> multipleSelection = dateForm.getMultipleSelection();
+        classStudentService.addStuList(gradeName,classNumber,multipleSelection);
         return R.ok();
     }
 

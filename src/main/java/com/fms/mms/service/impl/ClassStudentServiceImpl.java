@@ -1,5 +1,6 @@
 package com.fms.mms.service.impl;
 
+
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fms.mms.dao.ClassStudentDao;
@@ -16,10 +17,12 @@ import com.fms.mms.utils.R;
 import com.fms.mms.vo.ClassStudentVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Service("classStudentService")
@@ -93,5 +96,40 @@ public class ClassStudentServiceImpl extends ServiceImpl<ClassStudentDao, ClassS
         ClassStudentEntity classStudentEntity = new ClassStudentEntity();
         classStudentEntity.setClassTableId(id);
         this.baseMapper.update(classStudentEntity,updateWrapper);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void addStuList(Long gradeName, Integer classNumber, List<StudentFilesEntity> multipleSelection) {
+        //根据年级id、班级查询班级表id
+        Long id = classTableService.getIdByGradeAndClNum(gradeName, classNumber);
+        List<Long> ids = multipleSelection.stream().map(e -> e.getId()).collect(Collectors.toList());
+        for (Long longs : ids){
+            ClassStudentEntity classStudentEntity = new ClassStudentEntity();
+            classStudentEntity.setClassTableId(id);
+            classStudentEntity.setStudentFilesId(longs);
+            int insert = this.baseMapper.insert(classStudentEntity);
+            if (insert > 0){
+                UpdateWrapper<StudentFilesEntity> updateWrapper = new UpdateWrapper<>();
+                updateWrapper.eq("id",longs);
+                StudentFilesEntity studentFilesEntity = new StudentFilesEntity();
+                studentFilesEntity.setIsAdd(1);
+                studentFilesService.update(studentFilesEntity,updateWrapper);
+            }
+        }
+    }
+
+    @Override
+    public void removeStuById(Long id) {
+        //查询student_files_id
+        ClassStudentEntity classStudentEntity = this.baseMapper.selectById(id);
+        boolean b = this.removeById(id);
+        if (b){
+            UpdateWrapper<StudentFilesEntity> updateWrapper = new UpdateWrapper<>();
+            updateWrapper.eq("id",classStudentEntity.getStudentFilesId());
+            StudentFilesEntity studentFilesEntity = new StudentFilesEntity();
+            studentFilesEntity.setIsAdd(0);
+            studentFilesService.update(studentFilesEntity,updateWrapper);
+        }
     }
 }

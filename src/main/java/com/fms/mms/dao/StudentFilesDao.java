@@ -4,6 +4,7 @@ import com.fms.mms.entity.StudentFilesEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,4 +31,17 @@ public interface StudentFilesDao extends BaseMapper<StudentFilesEntity> {
      * @return
      */
     Integer getCount(Map<String, Object> params);
+
+    /**
+     * 查询功能is_add = 0
+     * @param map
+     * @return
+     */
+    List<StudentFilesEntity> getFilePage(Map<String, Object> map);
+
+    /**
+     * 获取总条数
+     * @return
+     */
+    int getTotal();
 }

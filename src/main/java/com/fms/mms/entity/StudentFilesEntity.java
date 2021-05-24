@@ -67,5 +67,8 @@ public class StudentFilesEntity implements Serializable {
 	 * 照片
 	 */
 	private String photo;
-
+	/**
+	 * 是否添加0:未添加，1:添加
+	 */
+	private Integer isAdd;
 }

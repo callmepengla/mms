@@ -78,4 +78,27 @@ public class StudentFilesServiceImpl extends ServiceImpl<StudentFilesDao, Studen
         return false;
     }
 
+    @Override
+    public PageUtils getFilesPage(Map<String, Object> params) {
+        //获取数据
+        String page = (String) params.get("page");
+        String limit = (String) params.get("limit");
+        // 获取起始长度
+        Integer size = Integer.valueOf(limit);
+        Integer index = Integer.valueOf(page);
+        if (index > 0) {
+            index = (index - 1) * size;
+        }
+        // 条件查询产品VO数组以及总条数
+        HashMap<String, Object> map = new HashMap<>(7);
+        map.put("size", size);
+        map.put("index", index);
+        //获取分页集合
+        List<StudentFilesEntity> filesEntityList = this.baseMapper.getFilePage(map);
+        //获取总条数
+        int size1 = this.baseMapper.getTotal();
+        PageUtils pageUtils = new PageUtils(filesEntityList,size1,size,index);
+        return pageUtils;
+    }
+
 }
